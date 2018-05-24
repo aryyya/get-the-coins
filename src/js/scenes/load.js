@@ -1,9 +1,3 @@
-const getArrayOfFormats = (name, ...formats) => {
-    return formats.reduce(arr, format => {
-        return [...arr, name + '.' + format]
-    })
-}
-
 const loadState = {
 
     preload () {

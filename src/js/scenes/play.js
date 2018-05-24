@@ -71,29 +71,27 @@ const playState = {
     },
 
     movePlayer() {
-        if (this.controls.left.isDown) {
-            this.player.body.velocity.x = -200
-        } else if (this.controls.right.isDown) {
-            this.player.body.velocity.x = +200
+        const player = this.player
+        const controls = this.controls
+
+        // left and right
+        if (controls.left.isDown) {
+            player.body.velocity.x = -200
+        } else if (controls.right.isDown) {
+            player.body.velocity.x = +200
         } else {
-            this.player.body.velocity.x = 0
+            player.body.velocity.x = 0
         }
-        if (this.controls.up.isDown && this.player.body.touching.down) {
+
+        // jump up
+        if (controls.up.isDown && player.body.touching.down) {
+            player.body.velocity.y = -320
             this.jumpSound.play()
-            this.player.body.velocity.y = -320
-            let angle = 0
-            if (this.player.body.velocity.x > 0) {
-                angle = +720
-            } else if (this.player.body.velocity.x < 0) {
-                angle = -720
-            }
-            this.player.jumpTween = game.add.tween(this.player).to({ angle }, 2000).start()
-        } else if (this.player.body.touching.down) {
-            game.tweens.remove(this.player.jumpTween)
-            this.player.angle = 0
         }
-        if (this.controls.down.isDown && !this.player.body.touching.down) {
-            this.player.body.velocity.y += 25
+
+        // fall down
+        if (controls.down.isDown && !player.body.touching.down) {
+            player.body.velocity.y += 25
         }
     },
 
