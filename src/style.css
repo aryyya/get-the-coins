@@ -1,0 +1,19 @@
+body {
+  font-family: sans-serif;
+  background-color: #222;
+}
+
+.title {
+  text-align: center;
+  font-weight: 300;
+}
+
+#screen * {
+  margin: auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 25%;
+  transform: translateY(-25%);
+  border-radius: 12.5px;
+}
