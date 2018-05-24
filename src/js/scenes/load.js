@@ -1,3 +1,9 @@
+const getArrayOfFormats = (name, ...formats) => {
+    return formats.reduce(arr, format => {
+        return [...arr, name + '.' + format]
+    })
+}
+
 const loadState = {
 
     preload () {
@@ -27,6 +33,10 @@ const loadState = {
         game.load.audio('hit-monster', 'hit-monster.wav')
         game.load.audio('player-died', 'player-died.wav')
         game.load.audio('player-jumped', 'player-jumped.wav')
+        game.load.audio('jump', ['jump.ogg', 'jump.mp3'])
+        game.load.audio('coin', ['coin.ogg', 'coin.mp3'])
+        game.load.audio('dead', ['dead.ogg', 'dead.mp3'])
+        game.load.audio('music', ['background-music.ogg', 'background-music.mp3'])
     },
 
     create () {

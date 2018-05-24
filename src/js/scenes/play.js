@@ -28,6 +28,11 @@ const playState = {
         // score
         this.scoreLabel = game.add.text(30, 30, 'score: 0', { font: '18px Arial', fill: '#ffffff' })
         game.global.score = 0
+
+        // sounds
+        this.jumpSound = game.add.audio('jump')
+        this.coinSound = game.add.audio('coin')
+        this.deadSound = game.add.audio('dead')
     },
 
     update() {
@@ -74,7 +79,7 @@ const playState = {
             this.player.body.velocity.x = 0
         }
         if (this.controls.up.isDown && this.player.body.touching.down) {
-            game.sound.play('player-jumped')
+            this.jumpSound.play()
             this.player.body.velocity.y = -320
             let angle = 0
             if (this.player.body.velocity.x > 0) {
@@ -111,18 +116,12 @@ const playState = {
     },
 
     playerDie() {
-        const deathTween = game.add.tween(this.player).to({ angle: 720, y: screen.height }, 1000).start()
-        game.stage.backgroundColor = '#000000'
-        deathTween.onComplete.add(() => {
-            window.setTimeout(() => {
-                game.sound.play('player-died')
-                game.state.start('menu')
-            }, 500)
-        }, this)
+        this.deadSound.play()
+        game.state.start('menu')
     },
 
     takeCoin() {
-        game.sound.play('got-coin')
+        this.coinSound.play()
         game.global.score += 5
         this.scoreLabel.text = `score: ${game.global.score}`
         this.addEnemy()

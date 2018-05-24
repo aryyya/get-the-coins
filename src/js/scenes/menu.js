@@ -20,6 +20,14 @@ const menuState = {
         // create input key
         const wKey = game.input.keyboard.addKey(Phaser.KeyCode.W)
         wKey.onDown.add(this.start, this)
+
+        // start background music
+        if (!this.music) {
+            this.music = game.add.audio('music')
+            this.music.loop = true
+            this.music.volume = 0.75;
+            this.music.play()
+        }
     },
 
     start () {
