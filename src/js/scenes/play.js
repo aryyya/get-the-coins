@@ -10,6 +10,8 @@ const playState = {
         this.player.anchor.setTo(0.5, 0.5)
         game.physics.arcade.enable(this.player)
         this.player.body.gravity.y = 500
+        this.player.animations.add('right', [1, 2], 8, true)
+        this.player.animations.add('left', [3, 4], 8, true)
 
         // walls
         this.createWorld()
@@ -77,10 +79,13 @@ const playState = {
         // left and right
         if (controls.left.isDown) {
             player.body.velocity.x = -200
+            this.player.animations.play('left')
         } else if (controls.right.isDown) {
             player.body.velocity.x = +200
+            this.player.animations.play('right')
         } else {
             player.body.velocity.x = 0
+            this.player.frame = 0
         }
 
         // jump up
@@ -132,8 +137,7 @@ const playState = {
             { x: 60, y: 140 },
             { x: 440, y: 140 },
             { x: 130, y: 300 },
-            { x: 370, y: 300 },
-            { x: screen.width / 2, y: screen.height / 2 }
+            { x: 370, y: 300 }
         ]
         positions.forEach((position, index) => {
             if (position.x === this.coin.x && position.y === this.coin.y) {
