@@ -124,10 +124,16 @@ const playState = {
     },
 
     takeCoin() {
-        this.coinSound.play()
         game.global.score += 5
         this.scoreLabel.text = `score: ${game.global.score}`
+
         this.addEnemy()
+        this.coinSound.play()
+
+        this.coin.scale.setTo(0, 0)
+        game.add.tween(this.coin.scale).to({ x: 1, y: 1 }, 250).easing(Phaser.Easing.Cubic.InOut).start()
+        game.add.tween(this.player.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
+        game.add.tween(this.scoreLabel.scale).to({ x: 1.1, y: 1.1 }, 100).yoyo(true).start()
     },
 
     updateCoinPosition() {

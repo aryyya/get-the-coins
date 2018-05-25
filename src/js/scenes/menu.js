@@ -6,8 +6,9 @@ const menuState = {
         game.add.image(0, 0, 'background')
 
         // show game title
-        const nameLabel = game.add.text(game.width / 2, 80, 'Get the Coins!', { font: '50px Arial', fill: '#ffffff' })
+        const nameLabel = game.add.text(game.width / 2, -50, 'Get the Coins!', { font: '50px Arial', fill: '#ffffff' })
         nameLabel.anchor.setTo(0.5, 0.5)
+        game.add.tween(nameLabel).to({ y: 80 }, 1000).easing(Phaser.Easing.Bounce.Out).start()
 
         // show score
         const scoreLabel = game.add.text(game.width / 2, game.height / 2, `score: ${game.global.score}`, { font: '25px Arial', fill: '#ffffff' })
@@ -16,6 +17,7 @@ const menuState = {
         // show instructions
         const startLabel = game.add.text(game.width / 2, game.height - 80, 'press w to start', { font: '25px Arial', fill: '#ffffff' })
         startLabel.anchor.setTo(0.5, 0.5)
+        game.add.tween(startLabel).to({ angle: -5 }, 500).to({ angle: +5 }, 1000).to({ angle: 0 }, 500).loop().start()
 
         // create input key
         const wKey = game.input.keyboard.addKey(Phaser.KeyCode.W)
