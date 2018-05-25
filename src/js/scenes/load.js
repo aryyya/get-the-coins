@@ -21,6 +21,8 @@ const loadState = {
         game.load.image('wallVertical', 'wallVertical.png')
         game.load.image('wallHorizontal', 'wallHorizontal.png')
         game.load.image('background', 'background.png')
+        game.load.image('pixel', 'pixel.png')
+        game.load.image('yellow-pixel', 'yellow-pixel.png')
 
         // load audio assets
         game.load.audio('got-coin', 'got-coin.wav')

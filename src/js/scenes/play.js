@@ -35,6 +35,22 @@ const playState = {
         this.jumpSound = game.add.audio('jump')
         this.coinSound = game.add.audio('coin')
         this.deadSound = game.add.audio('dead')
+
+        // player particle emitter
+        this.playerEmitter = game.add.emitter(0, 0, 15)
+        this.playerEmitter.makeParticles('pixel')
+        this.playerEmitter.setYSpeed(-150, 150)
+        this.playerEmitter.setXSpeed(-150, 150)
+        this.playerEmitter.setScale(2, 0, 2, 0, 800)
+        this.playerEmitter.gravity = 0
+
+        // coin particle emitter
+        this.coinEmitter = game.add.emitter(0, 0, 5)
+        this.coinEmitter.makeParticles('yellow-pixel')
+        this.coinEmitter.setYSpeed(-150, 150)
+        this.coinEmitter.setXSpeed(-150, 150)
+        this.coinEmitter.setScale(2, 0, 2, 0, 800)
+        this.coinEmitter.gravity = 0
     },
 
     update() {
@@ -51,7 +67,7 @@ const playState = {
 
         // player
         this.movePlayer()
-        if (!this.player.inWorld) {
+        if (!this.player.inWorld && this.player.alive) {
             this.playerDie()
         }
 
@@ -120,12 +136,23 @@ const playState = {
 
     playerDie() {
         this.deadSound.play()
-        game.state.start('menu')
+        this.player.kill()
+
+        this.playerEmitter.x = this.player.x
+        this.playerEmitter.y = this.player.y
+        this.playerEmitter.start(true, 800, null, 15)
+        game.time.events.add(1000, () => {
+            game.state.start('menu')
+        }, this)
     },
 
     takeCoin() {
         game.global.score += 5
         this.scoreLabel.text = `score: ${game.global.score}`
+
+        this.coinEmitter.x = this.coin.x
+        this.coinEmitter.y = this.coin.y
+        this.coinEmitter.start(true, 800, null, 15)
 
         this.addEnemy()
         this.coinSound.play()
