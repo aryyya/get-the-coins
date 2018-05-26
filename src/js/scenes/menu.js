@@ -30,7 +30,7 @@ const menuState = {
         }
 
         // show instructions
-        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press w to start', { font: '24px Geo', fontWeight: 'bold', fill: '#ffffff' })
+        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press SPACEBAR to start', { font: '24px Geo', fontWeight: 'bold', fill: '#ffffff' })
         startLabel.anchor.setTo(0.5, 0.5)
         game.add.tween(startLabel.scale).to({ y: 1.1, x: 1.1 }, 300).yoyo(true).loop().delay(50).start()
 
@@ -42,8 +42,8 @@ const menuState = {
         this.muteButton.frame = game.sound.mute ? 1 : 0
 
         // create input key
-        const wKey = game.input.keyboard.addKey(Phaser.KeyCode.W)
-        wKey.onDown.add(this.start, this)
+        const spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+        spacebar.onDown.add(this.start, this)
 
         // start background music
         if (!this.music) {

@@ -4,6 +4,7 @@ const playState = {
 
         // input
         this.controls = this.getWasdKeys()
+        this.cursor = game.input.keyboard.createCursorKeys();
 
         // player
         this.player = game.add.sprite(game.width / 2, game.height / 2, 'player')
@@ -92,12 +93,13 @@ const playState = {
     movePlayer() {
         const player = this.player
         const controls = this.controls
+        const cursor = this.cursor
 
         // left and right
-        if (controls.left.isDown) {
+        if (controls.left.isDown || cursor.left.isDown) {
             player.body.velocity.x = -200
             this.player.animations.play('left')
-        } else if (controls.right.isDown) {
+        } else if (controls.right.isDown || cursor.right.isDown) {
             player.body.velocity.x = +200
             this.player.animations.play('right')
         } else {
@@ -106,13 +108,13 @@ const playState = {
         }
 
         // jump up
-        if (controls.up.isDown && player.body.touching.down) {
+        if ((controls.up.isDown || cursor.up.isDown) && player.body.touching.down) {
             player.body.velocity.y = -320
             this.jumpSound.play()
         }
 
         // fall down
-        if (controls.down.isDown && !player.body.touching.down) {
+        if ((controls.down.isDown || cursor.down.isDown) && !player.body.touching.down) {
             player.body.velocity.y += 25
         }
     },
