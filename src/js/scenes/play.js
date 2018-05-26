@@ -23,7 +23,7 @@ const playState = {
         this.enemies.createMultiple(10, 'enemy')
 
         // score
-        this.scoreLabel = game.add.text(75, 45, '0 points', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
+        this.scoreLabel = game.add.text(75, 45, '', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
         this.scoreLabel.anchor.setTo(0.5, 0.5)
         game.global.score = 0
 
@@ -180,7 +180,7 @@ const playState = {
         this.coin.scale.setTo(0, 0)
         game.add.tween(this.coin.scale).to({ x: 1, y: 1 }, 250).easing(Phaser.Easing.Cubic.InOut).start()
         game.add.tween(this.player.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
-        game.add.tween(this.scoreLabel.scale).to({ x: 1.2, y: 1.2 }, 100).yoyo(true).start()
+        game.add.tween(this.scoreLabel.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
     },
 
     updateCoinPosition() {
