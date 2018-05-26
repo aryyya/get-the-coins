@@ -3,6 +3,13 @@ body {
   background-color: #222;
 }
 
+.hidden-text {
+  font-family: 'Geo';
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
 .title {
   text-align: center;
   font-weight: 300;

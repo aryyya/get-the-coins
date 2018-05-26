@@ -3,7 +3,7 @@ const loadState = {
     preload () {
 
         // show loading label
-        const loadingLabel = game.add.text(game.width / 2, 150, 'loading...', { font: '30px Arial', fill: '#ffffff' })
+        const loadingLabel = game.add.text(game.width / 2, 150, 'loading...', { font: '32px Geo', fill: '#ffffff' })
         loadingLabel.anchor.setTo(0.5, 0.5)
 
         // show progress bar

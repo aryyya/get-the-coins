@@ -28,7 +28,7 @@ const playState = {
         this.enemies.createMultiple(10, 'enemy')
 
         // score
-        this.scoreLabel = game.add.text(70, 45, 'score: 0', { font: '18px Arial', fill: '#ffffff' })
+        this.scoreLabel = game.add.text(75, 45, 'score: 0', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
         this.scoreLabel.anchor.setTo(0.5, 0.5)
         game.global.score = 0
 

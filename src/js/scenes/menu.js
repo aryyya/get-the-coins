@@ -18,19 +18,19 @@ const menuState = {
         game.add.image(0, 0, 'background')
 
         // show game title
-        const nameLabel = game.add.text(game.width / 2, -50, 'Get the Coins!', { font: '50px Arial', fill: '#ffffff' })
+        const nameLabel = game.add.text(game.width / 2, -50, 'Get the Coins!', { font: '50px Geo', fontWeight: 'bold', fill: '#ffffff' })
         nameLabel.anchor.setTo(0.5, 0.5)
         game.add.tween(nameLabel).to({ y: 80 }, 1000).easing(Phaser.Easing.Bounce.Out).start()
 
         // show score
-        const scoreLabel = game.add.text(game.width / 2, game.height / 2, `high score: ${localStorage['high-score']}`, { font: '20px Arial', fill: '#ffffff' })
+        const scoreLabel = game.add.text(game.width / 2, game.height / 2, `high score: ${localStorage['high-score']}`, { font: '24px Geo', fontWeight: 'bold', fill: '#ffffff' })
         scoreLabel.anchor.setTo(0.5, 0.5)
         if (newHighScore) {
-            game.add.tween(scoreLabel.scale).to({ y: 1.1, x: 1.1 }, 500).yoyo(true).loop().start()
+            scoreLabel.fill = "yellow"
         }
 
         // show instructions
-        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press w to start', { font: '22px Arial', fontWeight: 'bold', fill: '#ffffff' })
+        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press w to start', { font: '24px Geo', fontWeight: 'bold', fill: '#ffffff' })
         startLabel.anchor.setTo(0.5, 0.5)
         game.add.tween(startLabel.scale).to({ y: 1.1, x: 1.1 }, 300).yoyo(true).loop().delay(50).start()
 
