@@ -28,7 +28,8 @@ const playState = {
         this.enemies.createMultiple(10, 'enemy')
 
         // score
-        this.scoreLabel = game.add.text(30, 30, 'score: 0', { font: '18px Arial', fill: '#ffffff' })
+        this.scoreLabel = game.add.text(70, 45, 'score: 0', { font: '18px Arial', fill: '#ffffff' })
+        this.scoreLabel.anchor.setTo(0.5, 0.5)
         game.global.score = 0
 
         // sounds
@@ -141,6 +142,7 @@ const playState = {
         this.playerEmitter.x = this.player.x
         this.playerEmitter.y = this.player.y
         this.playerEmitter.start(true, 800, null, 15)
+
         game.time.events.add(1000, () => {
             game.state.start('menu')
         }, this)
@@ -160,7 +162,7 @@ const playState = {
         this.coin.scale.setTo(0, 0)
         game.add.tween(this.coin.scale).to({ x: 1, y: 1 }, 250).easing(Phaser.Easing.Cubic.InOut).start()
         game.add.tween(this.player.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
-        game.add.tween(this.scoreLabel.scale).to({ x: 1.1, y: 1.1 }, 100).yoyo(true).start()
+        game.add.tween(this.scoreLabel.scale).to({ x: 1.2, y: 1.2 }, 100).yoyo(true).start()
     },
 
     updateCoinPosition() {

@@ -2,6 +2,18 @@ const menuState = {
 
     create () {
 
+        // initialize high score local storage
+        if (!localStorage['high-score']) {
+            localStorage['high-score'] = 0
+        }
+        
+        // set new high score
+        let newHighScore = false
+        if (game.global.score > localStorage['high-score']) {
+            localStorage['high-score'] = game.global.score
+            newHighScore = true
+        }
+
         // show background image
         game.add.image(0, 0, 'background')
 
@@ -11,13 +23,23 @@ const menuState = {
         game.add.tween(nameLabel).to({ y: 80 }, 1000).easing(Phaser.Easing.Bounce.Out).start()
 
         // show score
-        const scoreLabel = game.add.text(game.width / 2, game.height / 2, `score: ${game.global.score}`, { font: '25px Arial', fill: '#ffffff' })
+        const scoreLabel = game.add.text(game.width / 2, game.height / 2, `high score: ${localStorage['high-score']}`, { font: '20px Arial', fill: '#ffffff' })
         scoreLabel.anchor.setTo(0.5, 0.5)
+        if (newHighScore) {
+            game.add.tween(scoreLabel.scale).to({ y: 1.1, x: 1.1 }, 500).yoyo(true).loop().start()
+        }
 
         // show instructions
-        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press w to start', { font: '25px Arial', fill: '#ffffff' })
+        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press w to start', { font: '22px Arial', fontWeight: 'bold', fill: '#ffffff' })
         startLabel.anchor.setTo(0.5, 0.5)
-        game.add.tween(startLabel).to({ angle: -5 }, 500).to({ angle: +5 }, 1000).to({ angle: 0 }, 500).loop().start()
+        game.add.tween(startLabel.scale).to({ y: 1.1, x: 1.1 }, 300).yoyo(true).loop().delay(50).start()
+
+        // show mute button
+        this.muteButton = game.add.button(20, 20, 'mute', () => {
+            game.sound.mute = !game.sound.mute
+            this.muteButton.frame = game.sound.mute ? 1 : 0
+        }, this)
+        this.muteButton.frame = game.sound.mute ? 1 : 0
 
         // create input key
         const wKey = game.input.keyboard.addKey(Phaser.KeyCode.W)
