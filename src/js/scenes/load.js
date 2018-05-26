@@ -18,7 +18,7 @@ const loadState = {
         game.load.spritesheet('player', 'player2.png', 20, 20)
         game.load.spritesheet('mute', 'muteButton.png', 28, 22)
         game.load.image('enemy', 'enemy.png')
-        game.load.image('coin', 'coin.png')
+        game.load.image('coin', 'coin2.png')
         game.load.image('wallVertical', 'wallVertical.png')
         game.load.image('wallHorizontal', 'wallHorizontal.png')
         game.load.image('background', 'background.png')

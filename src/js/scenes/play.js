@@ -17,26 +17,39 @@ const playState = {
         // walls
         this.createWorld()
 
-        // coins
-        this.coin = game.add.sprite(60, 140, 'coin')
-        game.physics.arcade.enable(this.coin)
-        this.coin.anchor.setTo(0.5, 0.5)
-        this.updateCoinPosition()
-
         // enemies
         this.enemies = game.add.group()
         this.enemies.enableBody = true
         this.enemies.createMultiple(10, 'enemy')
 
         // score
-        this.scoreLabel = game.add.text(75, 45, 'score: 0', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
+        this.scoreLabel = game.add.text(75, 45, '0 points', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
         this.scoreLabel.anchor.setTo(0.5, 0.5)
         game.global.score = 0
+
+        // bonus
+        this.bonus = 9
+        this.bonusLabel = game.add.text(420, 45, `${this.bonus}`, { font: '35px Geo', fontWeight: 'bold', fill: '#000000' })
+        this.bonusLabel.anchor.setTo(0.5, 0.5)
+
+        game.time.events.loop(1000, () => {
+            if (this.bonus > 1) {
+                this.bonus -= 1
+            }
+            this.bonusLabel.text = `${this.bonus}`
+        }, this)
 
         // sounds
         this.jumpSound = game.add.audio('jump')
         this.coinSound = game.add.audio('coin')
         this.deadSound = game.add.audio('dead')
+
+        // coins
+        this.coin = game.add.sprite(0, 0, 'coin')
+        game.physics.arcade.enable(this.coin)
+        this.coin.anchor.setTo(0.5, 0.5)
+        this.updateCoinPosition()
+        this.bonusLabel.bringToTop()
 
         // player particle emitter
         this.playerEmitter = game.add.emitter(0, 0, 15)
@@ -72,6 +85,9 @@ const playState = {
         if (!this.player.inWorld && this.player.alive) {
             this.playerDie()
         }
+        this.scoreLabel.x = this.player.x
+        this.scoreLabel.y = this.player.y - 25
+
 
         // enemies
         game.physics.arcade.collide(this.enemies, this.walls)
@@ -151,8 +167,8 @@ const playState = {
     },
 
     takeCoin() {
-        game.global.score += 5
-        this.scoreLabel.text = `score: ${game.global.score}`
+        game.global.score += (5 * this.bonus)
+        this.scoreLabel.text = `${game.global.score}`
 
         this.coinEmitter.x = this.coin.x
         this.coinEmitter.y = this.coin.y
@@ -183,6 +199,10 @@ const playState = {
         })
         const newPosition = game.rnd.pick(positions)
         this.coin.reset(newPosition.x, newPosition.y)
+        this.bonus = 9
+        this.bonusLabel.x = this.coin.x + 0.5
+        this.bonusLabel.y = this.coin.y
+        this.bonusLabel.text = `${this.bonus}`
     },
 
     addEnemy() {
