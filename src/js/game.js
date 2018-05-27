@@ -1,9 +1,7 @@
 // game object
 const game = new Phaser.Game(
-    500,         // width
-    340,         // height
-    Phaser.AUTO, // renderer
-    'screen'     // canvas id
+    500, // width
+    340  // height
 )
 
 // game globals
