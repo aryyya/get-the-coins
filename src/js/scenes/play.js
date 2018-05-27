@@ -71,8 +71,7 @@ const playState = {
     update() {
 
         // collisions
-        game.physics.arcade.collide(this.player, this.walls, () => {
-        })
+        game.physics.arcade.collide(this.player, this.layer)
 
         // coins
         game.physics.arcade.overlap(this.player, this.coin, () => {
@@ -90,7 +89,7 @@ const playState = {
 
 
         // enemies
-        game.physics.arcade.collide(this.enemies, this.walls)
+        game.physics.arcade.collide(this.enemies, this.layer)
         game.physics.arcade.overlap(this.player, this.enemies, () => {
             game.sound.play('hit-monster')
             this.playerDie()
@@ -102,7 +101,8 @@ const playState = {
             up: Phaser.KeyCode.W,
             left: Phaser.KeyCode.A,
             down: Phaser.KeyCode.S,
-            right: Phaser.KeyCode.D
+            right: Phaser.KeyCode.D,
+            leap: Phaser.KeyCode.SPACEBAR
         })
     },
 
@@ -124,7 +124,7 @@ const playState = {
         }
 
         // jump up
-        if ((controls.up.isDown || cursor.up.isDown) && player.body.touching.down) {
+        if ((controls.up.isDown || cursor.up.isDown) && player.body.onFloor()) {
             player.body.velocity.y = -320
             this.jumpSound.play()
         }
@@ -136,21 +136,21 @@ const playState = {
     },
 
     createWorld() {
-        this.walls = game.add.group()
-        this.walls.enableBody = true
-        game.add.sprite(0, 0, 'wallVertical', 0, this.walls) // left
-        game.add.sprite(480, 0, 'wallVertical', 0, this.walls) // right
-        game.add.sprite(0, 0, 'wallHorizontal', 0, this.walls) // top left
-        game.add.sprite(300, 0, 'wallHorizontal', 0, this.walls) // top right
-        game.add.sprite(0, 320, 'wallHorizontal', 0, this.walls) // bot left
-        game.add.sprite(300, 320, 'wallHorizontal', 0, this.walls) // bot right
-        game.add.sprite(-100, 160, 'wallHorizontal', 0, this.walls) // mid left
-        game.add.sprite(400, 160, 'wallHorizontal', 0, this.walls) // mid right
-        const midTop = game.add.sprite(100, 80, 'wallHorizontal', 0, this.walls)
-        const midBot = game.add.sprite(100, 240, 'wallHorizontal', 0, this.walls)
-        midTop.scale.setTo(1.5, 1)
-        midBot.scale.setTo(1.5, 1)
-        this.walls.setAll('body.immovable', true)
+
+        // create tilemap
+        this.map = game.add.tilemap('map')
+
+        // add tileset to map
+        this.map.addTilesetImage('tileset')
+
+        // create layer by specifying name
+        this.layer = this.map.createLayer('Tile Layer 1')
+
+        // set world size
+        this.layer.resizeWorld()
+
+        // enable collisions
+        this.map.setCollision(1)
     },
 
     playerDie() {
@@ -167,7 +167,7 @@ const playState = {
     },
 
     takeCoin() {
-        game.global.score += (5 * this.bonus)
+        game.global.score += (1 * this.bonus)
         this.scoreLabel.text = `${game.global.score}`
 
         this.coinEmitter.x = this.coin.x
@@ -207,11 +207,16 @@ const playState = {
 
     addEnemy() {
         const enemy = this.enemies.getFirstDead()
+        const enemySpeeds = [
+            80, 100, 120
+        ]
         if (enemy) {
+            enemy.scale.x = 0.9
+            enemy.scale.y = 0.9
             enemy.anchor.setTo(0.5, 1)
             enemy.reset(game.width / 2, 0)
             enemy.body.gravity.y = 750
-            enemy.body.velocity.x = 100 * game.rnd.pick([-1, 1])
+            enemy.body.velocity.x = game.rnd.pick(enemySpeeds) * game.rnd.pick([-1, 1])
             enemy.body.bounce.x = 1
             enemy.checkWorldBounds = true
             enemy.outOfBoundsKill = true

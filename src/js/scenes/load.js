@@ -19,11 +19,11 @@ const loadState = {
         game.load.spritesheet('mute', 'muteButton.png', 28, 22)
         game.load.image('enemy', 'enemy.png')
         game.load.image('coin', 'coin2.png')
-        game.load.image('wallVertical', 'wallVertical.png')
-        game.load.image('wallHorizontal', 'wallHorizontal.png')
         game.load.image('background', 'background.png')
         game.load.image('pixel', 'pixel.png')
         game.load.image('yellow-pixel', 'yellow-pixel.png')
+        game.load.image('tileset', 'tileset.png')
+        game.load.tilemap('map', 'map.json', null, Phaser.Tilemap.TILED_JSON)
 
         // load audio assets
         game.load.audio('got-coin', 'got-coin.wav')
