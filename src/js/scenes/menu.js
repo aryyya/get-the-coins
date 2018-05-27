@@ -30,7 +30,8 @@ const menuState = {
         }
 
         // show instructions
-        const startLabel = game.add.text(game.width / 2, game.height - 80, 'press SPACEBAR to start', { font: '24px Geo', fontWeight: 'bold', fill: '#ffffff' })
+        const promptText = game.device.desktop ? 'press SPACEBAR to start' : 'touch the screen to start'
+        const startLabel = game.add.text(game.width / 2, game.height - 80, promptText, { font: '24px Geo', fontWeight: 'bold', fill: '#ffffff' })
         startLabel.anchor.setTo(0.5, 0.5)
         game.add.tween(startLabel.scale).to({ y: 1.1, x: 1.1 }, 300).yoyo(true).loop().delay(50).start()
 
@@ -45,6 +46,9 @@ const menuState = {
         const spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
         spacebar.onDown.add(this.start, this)
 
+        // create touch key
+        if (!game.device.desktop) game.input.onDown.add(this.start, this)
+
         // start background music
         if (!this.music) {
             this.music = game.add.audio('music')
@@ -55,6 +59,9 @@ const menuState = {
     },
 
     start () {
+
+        // do nothing if mute pressed
+        if (!game.device.desktop && game.input.y < 50 && game.input.x < 60) return
 
         // start next state
         game.state.start('play')
