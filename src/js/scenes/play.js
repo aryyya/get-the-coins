@@ -73,6 +73,14 @@ export const playState = {
         this.coinEmitter.setXSpeed(-150, 150)
         this.coinEmitter.setScale(2, 0, 2, 0, 800)
         this.coinEmitter.gravity = 0
+
+        // mobile device orientation check
+        if (!game.device.desktop) {
+            this.rotateLabel = game.add.text(game.width / 2, game.height / 2, '', { font: '35px Geo', fill: '#fff', backgroundColor: '#000' })
+            this.rotateLabel.anchor.setTo(0.5, 0.5)
+            game.scale.onOrientationChange.add(this.orientationChange, this)
+            this.orientationChange()
+        }
     },
 
     update () {
@@ -100,6 +108,16 @@ export const playState = {
             game.sound.play('hit-monster')
             this.playerDie()
         }, null, this)
+    },
+
+    orientationChange () {
+        if (game.scale.isPortrait) {
+            game.paused = true
+            this.rotateLabel.text = 'turn your device sideways'
+        } else {
+            game.paused = false
+            this.rotateLabel.text = ''
+        }
     },
 
     getWasdKeys () {
