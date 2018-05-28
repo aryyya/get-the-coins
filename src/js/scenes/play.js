@@ -25,7 +25,7 @@ const playState = {
         // enemies
         this.enemies = game.add.group()
         this.enemies.enableBody = true
-        this.enemies.createMultiple(10, 'enemy')
+        this.enemies.createMultiple(25, 'enemy')
 
         // score
         this.scoreLabel = game.add.text(75, 45, '', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
@@ -90,7 +90,6 @@ const playState = {
         }
         this.scoreLabel.x = this.player.x
         this.scoreLabel.y = this.player.y - 25
-
 
         // enemies
         game.physics.arcade.collide(this.enemies, this.layer)
@@ -175,6 +174,11 @@ const playState = {
         // create tilemap
         this.map = game.add.tilemap('map')
 
+        // load coin spawn positions
+        this.spawns = this.map.objects.spawns.map(({x, y}) => {
+            return { x, y }
+        })
+
         // add tileset to map
         this.map.addTilesetImage('tileset')
 
@@ -212,28 +216,18 @@ const playState = {
         this.addEnemy()
         this.coinSound.play()
 
-        this.coin.scale.setTo(0, 0)
-        game.add.tween(this.coin.scale).to({ x: 1, y: 1 }, 250).easing(Phaser.Easing.Cubic.InOut).start()
         game.add.tween(this.player.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
         game.add.tween(this.scoreLabel.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
     },
 
     updateCoinPosition () {
-        const positions = [
-            { x: 140, y: 60 },
-            { x: 360, y: 60 },
-            { x: 60, y: 140 },
-            { x: 440, y: 140 },
-            { x: 130, y: 300 },
-            { x: 370, y: 300 }
-        ]
-        positions.forEach((position, index) => {
-            if (position.x === this.coin.x && position.y === this.coin.y) {
-                positions.splice(index, 1)
-            }
-        })
-        const newPosition = game.rnd.pick(positions)
-        this.coin.reset(newPosition.x, newPosition.y)
+        let position = null
+        if (!this.lastPosition) this.lastPosition = { x: 0, y: 0 }
+        do {
+            position = game.rnd.pick(this.spawns)
+        } while (position.x === this.lastPosition.x && position.y === this.lastPosition.y)
+        this.lastPosition = position
+        this.coin.reset(position.x, position.y)
         this.bonus = 9
         this.bonusLabel.x = this.coin.x + 0.5
         this.bonusLabel.y = this.coin.y
