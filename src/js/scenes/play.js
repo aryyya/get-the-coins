@@ -49,6 +49,7 @@ const playState = {
         this.deadSound = game.add.audio('dead')
 
         // coins
+        this.lastPosition = { x: 0, y: 0 }
         this.coin = game.add.sprite(0, 0, 'coin')
         game.physics.arcade.enable(this.coin)
         this.coin.anchor.setTo(0.5, 0.5)
@@ -220,17 +221,29 @@ const playState = {
         game.add.tween(this.scoreLabel.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
     },
 
-    updateCoinPosition () {
-        let position = null
-        if (!this.lastPosition) this.lastPosition = { x: 0, y: 0 }
+    gameObjectSetXY (gameObject, { x, y }) {
+        gameObject.x = x
+        gameObject.y = y
+    },
+
+    getNewCoinPosition () {
+        let newPosition = null
         do {
-            position = game.rnd.pick(this.spawns)
-        } while (position.x === this.lastPosition.x && position.y === this.lastPosition.y)
-        this.lastPosition = position
-        this.coin.reset(position.x, position.y)
+           newPosition = game.rnd.pick(this.spawns)
+        } while (this.lastPosition.x === newPosition.x && this.lastPosition.y === newPosition.y)
+        return newPosition
+    },
+
+    updateCoinPosition () {
+
+        // set to new position
+        const newPosition = this.getNewCoinPosition()
+        this.lastPosition = newPosition
+        this.coin.reset(newPosition.x, newPosition.y)
+        
+        // bonus countdown
+        this.bonusLabel.reset(this.coin.x + 0.5, this.coin.y)
         this.bonus = 9
-        this.bonusLabel.x = this.coin.x + 0.5
-        this.bonusLabel.y = this.coin.y
         this.bonusLabel.text = `${this.bonus}`
     },
 
