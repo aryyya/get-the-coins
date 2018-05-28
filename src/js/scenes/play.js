@@ -131,23 +131,32 @@ export const playState = {
     },
 
     getMobileInputs () {
-        const jumpButton = game.add.sprite(350, 240, 'jump-button')
+        const jumpButton = game.add.sprite(game.width - 180, game.height - 95, 'jump-button')
         jumpButton.inputEnabled = true
-        jumpButton.alpha = 0.5
+        jumpButton.alpha = 0.3
         jumpButton.events.onInputDown.add(this.jumpPlayer, this)
 
-        const leftButton = game.add.sprite(50, 240, 'left-button')
+        const diveButton = game.add.sprite(game.width - 100, game.height - 95, 'dive-button')
+        diveButton.inputEnabled = true
+        diveButton.alpha = 0.3
+        this.diveDown = false
+        diveButton.events.onInputOver.add(() => this.diveDown = true)
+        diveButton.events.onInputOut.add(() => this.diveDown = false)
+        diveButton.events.onInputDown.add(() => this.diveDown = true)
+        diveButton.events.onInputUp.add(() => this.diveDown = false)
+
+        const leftButton = game.add.sprite(0, game.height - 95, 'left-button')
         leftButton.inputEnabled = true
-        leftButton.alpha = 0.5
+        leftButton.alpha = 0.3
         this.moveLeft = false
         leftButton.events.onInputOver.add(() => this.moveLeft = true)
         leftButton.events.onInputOut.add(() => this.moveLeft = false)
         leftButton.events.onInputDown.add(() => this.moveLeft = true)
         leftButton.events.onInputUp.add(() => this.moveLeft = false)
 
-        const rightButton = game.add.sprite(130, 240, 'right-button')
+        const rightButton = game.add.sprite(80, game.height - 95, 'right-button')
         rightButton.inputEnabled = true
-        rightButton.alpha = 0.5
+        rightButton.alpha = 0.3
         this.moveRight = false
         rightButton.events.onInputOver.add(() => this.moveRight = true)
         rightButton.events.onInputOut.add(() => this.moveRight = false)
@@ -177,9 +186,9 @@ export const playState = {
             this.jumpPlayer()
         }
 
-        // fall down
-        if ((controls.down.isDown || cursor.down.isDown) && !player.body.touching.down) {
-            player.body.velocity.y += 25
+        // dive down
+        if ((controls.down.isDown || cursor.down.isDown) && !player.body.touching.down || this.diveDown) {
+            this.divePlayer()
         }
     },
 
@@ -188,6 +197,10 @@ export const playState = {
             this.player.body.velocity.y = -320
             this.jumpSound.play()
         }
+    },
+
+    divePlayer () {
+        this.player.body.velocity.y += 25
     },
 
     createWorld () {

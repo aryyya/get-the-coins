@@ -25,6 +25,7 @@ export const loadState = {
         game.load.image('pixel', 'pixel.png')
         game.load.image('yellow-pixel', 'yellow-pixel.png')
         game.load.image('jump-button', 'jumpButton.png')
+        game.load.image('dive-button', 'diveButton.png')
         game.load.image('right-button', 'rightButton.png')
         game.load.image('left-button', 'leftButton.png')
         game.load.image('tileset', 'tileset.png')
