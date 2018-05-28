@@ -1,4 +1,6 @@
-const playState = {
+import { game } from '../game.js'
+
+export const playState = {
 
     create () {
 

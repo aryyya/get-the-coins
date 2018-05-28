@@ -1,5 +1,10 @@
+import { bootState } from './scenes/boot.js'
+import { loadState } from './scenes/load.js'
+import { menuState } from './scenes/menu.js'
+import { playState } from './scenes/play.js'
+
 // game object
-const game = new Phaser.Game(
+export const game = new Phaser.Game(
     500, // width
     340  // height
 )

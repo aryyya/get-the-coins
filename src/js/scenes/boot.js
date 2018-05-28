@@ -1,4 +1,6 @@
-const bootState = {
+import { game } from '../game.js'
+
+export const bootState = {
 
     preload () {
 
