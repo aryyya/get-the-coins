@@ -59,7 +59,7 @@ export const playState = {
         this.bonusLabel.bringToTop()
 
         // player particle emitter
-        this.playerEmitter = game.add.emitter(0, 0, 15)
+        this.playerEmitter = game.add.emitter(0, 0, 1000)
         this.playerEmitter.makeParticles('pixel')
         this.playerEmitter.setYSpeed(-150, 150)
         this.playerEmitter.setXSpeed(-150, 150)
@@ -67,7 +67,7 @@ export const playState = {
         this.playerEmitter.gravity = 0
 
         // coin particle emitter
-        this.coinEmitter = game.add.emitter(0, 0, 5)
+        this.coinEmitter = game.add.emitter(0, 0, 100)
         this.coinEmitter.makeParticles('yellow-pixel')
         this.coinEmitter.setYSpeed(-150, 150)
         this.coinEmitter.setXSpeed(-150, 150)
@@ -232,7 +232,7 @@ export const playState = {
 
         this.playerEmitter.x = this.player.x
         this.playerEmitter.y = this.player.y
-        this.playerEmitter.start(true, 800, null, 15)
+        this.playerEmitter.start(true, 800, null, game.global.score)
 
         game.time.events.add(1000, () => {
             game.state.start('menu')
@@ -245,7 +245,7 @@ export const playState = {
 
         this.coinEmitter.x = this.coin.x
         this.coinEmitter.y = this.coin.y
-        this.coinEmitter.start(true, 800, null, 15)
+        this.coinEmitter.start(true, 800, null, this.bonus * 1.5)
 
         this.addEnemy()
         this.coinSound.play()
