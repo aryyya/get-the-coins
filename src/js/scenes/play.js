@@ -1,10 +1,15 @@
 const playState = {
 
-    create() {
+    create () {
 
         // input
         this.controls = this.getWasdKeys()
         this.cursor = game.input.keyboard.createCursorKeys();
+
+        // mobile input
+        if (!game.device.desktop) {
+            this.getMobileInputs()
+        }
 
         // player
         this.player = game.add.sprite(game.width / 2, game.height / 2, 'player')
@@ -31,7 +36,6 @@ const playState = {
         this.bonus = 9
         this.bonusLabel = game.add.text(420, 45, `${this.bonus}`, { font: '35px Geo', fontWeight: 'bold', fill: '#000000' })
         this.bonusLabel.anchor.setTo(0.5, 0.5)
-
         game.time.events.loop(1000, () => {
             if (this.bonus > 1) {
                 this.bonus -= 1
@@ -68,7 +72,7 @@ const playState = {
         this.coinEmitter.gravity = 0
     },
 
-    update() {
+    update () {
 
         // collisions
         game.physics.arcade.collide(this.player, this.layer)
@@ -96,7 +100,7 @@ const playState = {
         }, null, this)
     },
 
-    getWasdKeys() {
+    getWasdKeys () {
         return game.input.keyboard.addKeys({
             up: Phaser.KeyCode.W,
             left: Phaser.KeyCode.A,
@@ -106,16 +110,41 @@ const playState = {
         })
     },
 
-    movePlayer() {
+    getMobileInputs () {
+        const jumpButton = game.add.sprite(350, 240, 'jump-button')
+        jumpButton.inputEnabled = true
+        jumpButton.alpha = 0.5
+        jumpButton.events.onInputDown.add(this.jumpPlayer, this)
+
+        const leftButton = game.add.sprite(50, 240, 'left-button')
+        leftButton.inputEnabled = true
+        leftButton.alpha = 0.5
+        this.moveLeft = false
+        leftButton.events.onInputOver.add(() => this.moveLeft = true)
+        leftButton.events.onInputOut.add(() => this.moveLeft = false)
+        leftButton.events.onInputDown.add(() => this.moveLeft = true)
+        leftButton.events.onInputUp.add(() => this.moveLeft = false)
+
+        const rightButton = game.add.sprite(130, 240, 'right-button')
+        rightButton.inputEnabled = true
+        rightButton.alpha = 0.5
+        this.moveRight = false
+        rightButton.events.onInputOver.add(() => this.moveRight = true)
+        rightButton.events.onInputOut.add(() => this.moveRight = false)
+        rightButton.events.onInputDown.add(() => this.moveRight = true)
+        rightButton.events.onInputUp.add(() => this.moveRight = false)
+    },
+
+    movePlayer () {
         const player = this.player
         const controls = this.controls
         const cursor = this.cursor
 
         // left and right
-        if (controls.left.isDown || cursor.left.isDown) {
+        if (controls.left.isDown || cursor.left.isDown || this.moveLeft) {
             player.body.velocity.x = -200
             this.player.animations.play('left')
-        } else if (controls.right.isDown || cursor.right.isDown) {
+        } else if (controls.right.isDown || cursor.right.isDown || this.moveRight) {
             player.body.velocity.x = +200
             this.player.animations.play('right')
         } else {
@@ -125,8 +154,7 @@ const playState = {
 
         // jump up
         if ((controls.up.isDown || cursor.up.isDown) && player.body.onFloor()) {
-            player.body.velocity.y = -320
-            this.jumpSound.play()
+            this.jumpPlayer()
         }
 
         // fall down
@@ -135,7 +163,14 @@ const playState = {
         }
     },
 
-    createWorld() {
+    jumpPlayer () {
+        if (this.player.body.onFloor()) {
+            this.player.body.velocity.y = -320
+            this.jumpSound.play()
+        }
+    },
+
+    createWorld () {
 
         // create tilemap
         this.map = game.add.tilemap('map')
@@ -153,7 +188,7 @@ const playState = {
         this.map.setCollision(1)
     },
 
-    playerDie() {
+    playerDie () {
         this.deadSound.play()
         this.player.kill()
 
@@ -166,7 +201,7 @@ const playState = {
         }, this)
     },
 
-    takeCoin() {
+    takeCoin () {
         game.global.score += (1 * this.bonus)
         this.scoreLabel.text = `${game.global.score}`
 
@@ -183,7 +218,7 @@ const playState = {
         game.add.tween(this.scoreLabel.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
     },
 
-    updateCoinPosition() {
+    updateCoinPosition () {
         const positions = [
             { x: 140, y: 60 },
             { x: 360, y: 60 },
@@ -205,7 +240,7 @@ const playState = {
         this.bonusLabel.text = `${this.bonus}`
     },
 
-    addEnemy() {
+    addEnemy () {
         const enemy = this.enemies.getFirstDead()
         const enemySpeeds = [
             80, 100, 120
