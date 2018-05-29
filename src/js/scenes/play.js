@@ -196,13 +196,8 @@ export const playState = {
         const cursor = this.cursor
 
         if (this.movementTouchDownEvent) {
-            if (this.movementTouchDownEvent.position.x < this.movementTouchDownEvent.positionDown.x) {
-                this.moveLeft = true
-                this.moveRight = false
-            } else if (this.movementTouchDownEvent.position.x > this.movementTouchDownEvent.positionDown.x) {
-                this.moveRight = true
-                this.moveLeft = false
-            }
+            this.moveLeft  = this.movementTouchDownEvent.position.x < this.movementTouchDownEvent.positionDown.x
+            this.moveRight = this.movementTouchDownEvent.position.x > this.movementTouchDownEvent.positionDown.x
         } else {
             this.moveRight = false
             this.moveLeft = false
