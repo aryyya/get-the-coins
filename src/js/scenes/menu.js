@@ -50,17 +50,17 @@ export const menuState = {
 
         // create touch key
         if (!game.device.desktop) game.input.onDown.add(this.start, this)
+    },
 
+    start () {
+        
         // start background music
         if (!this.music) {
             this.music = game.add.audio('music')
             this.music.loop = true
-            this.music.volume = 0.75;
+            this.music.volume = 0.7;
             this.music.play()
         }
-    },
-
-    start () {
 
         // do nothing if mute pressed
         if (!game.device.desktop && game.input.y < 50 && game.input.x < 60) return
