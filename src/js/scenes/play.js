@@ -131,12 +131,12 @@ export const playState = {
     },
 
     getMobileInputs () {
-        const jumpButton = game.add.sprite(game.width - 180, game.height - 95, 'jump-button')
+        const jumpButton = game.add.sprite(game.width - 100, game.height - 95, 'jump-button')
         jumpButton.inputEnabled = true
         jumpButton.alpha = 0.3
         jumpButton.events.onInputDown.add(this.jumpPlayer, this)
 
-        const diveButton = game.add.sprite(game.width - 100, game.height - 95, 'dive-button')
+        const diveButton = game.add.sprite(game.width - 180, game.height - 95, 'dive-button')
         diveButton.inputEnabled = true
         diveButton.alpha = 0.3
         this.diveDown = false
