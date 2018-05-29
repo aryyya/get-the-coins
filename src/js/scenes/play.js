@@ -199,7 +199,7 @@ export const playState = {
             if (this.movementTouchDownEvent.position.x < this.movementTouchDownEvent.positionDown.x) {
                 this.moveLeft = true
                 this.moveRight = false
-            } else {
+            } else if (this.movementTouchDownEvent.position.x > this.movementTouchDownEvent.positionDown.x) {
                 this.moveRight = true
                 this.moveLeft = false
             }
