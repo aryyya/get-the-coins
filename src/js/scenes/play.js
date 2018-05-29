@@ -131,6 +131,8 @@ export const playState = {
     },
 
     getMobileInputs () {
+        /*
+
         const jumpButton = game.add.sprite(game.width - 100, game.height - 95, 'jump-button')
         jumpButton.inputEnabled = true
         jumpButton.alpha = 0.3
@@ -162,12 +164,49 @@ export const playState = {
         rightButton.events.onInputOut.add(() => this.moveRight = false)
         rightButton.events.onInputDown.add(() => this.moveRight = true)
         rightButton.events.onInputUp.add(() => this.moveRight = false)
+
+        */
+
+        this.movementTouchDownEvent = null
+
+        game.input.onDown.add(event => {
+            if (event.x < game.width / 2) {
+                this.movementTouchDownEvent = event
+            }
+            else {
+                if (this.player.body.onFloor()) {
+                    this.jumpPlayer()
+                    this.diveDown = false
+                } else {
+                    this.diveDown = true
+                }
+            }
+        })
+
+        game.input.onUp.add(event => {
+            if (this.movementTouchDownEvent && event.id === this.movementTouchDownEvent.id) {
+                this.movementTouchDownEvent = null
+            }
+        })
     },
 
     movePlayer () {
         const player = this.player
         const controls = this.controls
         const cursor = this.cursor
+
+        if (this.movementTouchDownEvent) {
+            if (this.movementTouchDownEvent.position.x < this.movementTouchDownEvent.positionDown.x) {
+                this.moveLeft = true
+                this.moveRight = false
+            } else {
+                this.moveRight = true
+                this.moveLeft = false
+            }
+        } else {
+            this.moveRight = false
+            this.moveLeft = false
+        }
 
         // left and right
         if (controls.left.isDown || cursor.left.isDown || this.moveLeft) {
