@@ -17,19 +17,9 @@ export const loadState = {
         game.load.path = './assets/'
 
         // load image assets
-        game.load.spritesheet('player', 'player2.png', 20, 20)
-        game.load.spritesheet('mute', 'muteButton.png', 28, 22)
-        game.load.image('enemy', 'enemy.png')
-        game.load.image('coin', 'coin2.png')
-        game.load.image('background', 'background.png')
-        game.load.image('pixel', 'pixel.png')
-        game.load.image('yellow-pixel', 'yellow-pixel.png')
-        game.load.image('jump-button', 'jumpButton.png')
-        game.load.image('dive-button', 'diveButton.png')
-        game.load.image('right-button', 'rightButton.png')
-        game.load.image('left-button', 'leftButton.png')
         game.load.image('tileset', 'tileset.png')
         game.load.tilemap('map', 'map.json', null, Phaser.Tilemap.TILED_JSON)
+        game.load.atlasJSONArray('atlas', 'atlas.png', 'atlas.json')
 
         // load audio assets
         game.load.audio('got-coin', 'got-coin.wav')

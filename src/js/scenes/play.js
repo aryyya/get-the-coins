@@ -14,12 +14,12 @@ export const playState = {
         }
 
         // player
-        this.player = game.add.sprite(game.width / 2, game.height / 2, 'player')
+        this.player = game.add.sprite(game.width / 2, game.height / 2, 'atlas', 'player01')
         this.player.anchor.setTo(0.5, 0.5)
         game.physics.arcade.enable(this.player)
         this.player.body.gravity.y = 500
-        this.player.animations.add('right', [1, 2], 8, true)
-        this.player.animations.add('left', [3, 4], 8, true)
+        this.player.animations.add('right', ['player02', 'player03'], 8, true)
+        this.player.animations.add('left', ['player04', 'player05'], 8, true)
 
         // walls
         this.createWorld()
@@ -27,7 +27,7 @@ export const playState = {
         // enemies
         this.enemies = game.add.group()
         this.enemies.enableBody = true
-        this.enemies.createMultiple(25, 'enemy')
+        this.enemies.createMultiple(25, 'atlas', 'enemy')
 
         // score
         this.scoreLabel = game.add.text(75, 45, '', { font: '20px Geo', fontWeight: 'bold', fill: '#ffffff' })
@@ -36,8 +36,8 @@ export const playState = {
 
         // bonus
         this.bonus = 9
-        this.bonusLabel = game.add.text(420, 45, `${this.bonus}`, { font: '35px Geo', fontWeight: 'bold', fill: '#000000' })
-        this.bonusLabel.anchor.setTo(0.5, 0.5)
+        this.bonusLabel = game.add.text(420, 45, `${this.bonus}`, { font: '30px Geo', fill: '#000000' })
+        this.bonusLabel.anchor.setTo(0.55, 0.475)
         game.time.events.loop(1000, () => {
             if (this.bonus > 1) {
                 this.bonus -= 1
@@ -52,7 +52,7 @@ export const playState = {
 
         // coins
         this.lastPosition = { x: 0, y: 0 }
-        this.coin = game.add.sprite(0, 0, 'coin')
+        this.coin = game.add.sprite(0, 0, 'atlas', 'coin')
         game.physics.arcade.enable(this.coin)
         this.coin.anchor.setTo(0.5, 0.5)
         this.updateCoinPosition()
@@ -60,7 +60,7 @@ export const playState = {
 
         // player particle emitter
         this.playerEmitter = game.add.emitter(0, 0, 1000)
-        this.playerEmitter.makeParticles('pixel')
+        this.playerEmitter.makeParticles('atlas', 'pixel')
         this.playerEmitter.setYSpeed(-150, 150)
         this.playerEmitter.setXSpeed(-150, 150)
         this.playerEmitter.setScale(2, 0, 2, 0, 800)
@@ -68,7 +68,7 @@ export const playState = {
 
         // coin particle emitter
         this.coinEmitter = game.add.emitter(0, 0, 100)
-        this.coinEmitter.makeParticles('yellow-pixel')
+        this.coinEmitter.makeParticles('atlas', 'yellow-pixel')
         this.coinEmitter.setYSpeed(-150, 150)
         this.coinEmitter.setXSpeed(-150, 150)
         this.coinEmitter.setScale(2, 0, 2, 0, 800)
@@ -131,42 +131,6 @@ export const playState = {
     },
 
     getMobileInputs () {
-        /*
-
-        const jumpButton = game.add.sprite(game.width - 100, game.height - 95, 'jump-button')
-        jumpButton.inputEnabled = true
-        jumpButton.alpha = 0.3
-        jumpButton.events.onInputDown.add(this.jumpPlayer, this)
-
-        const diveButton = game.add.sprite(game.width - 180, game.height - 95, 'dive-button')
-        diveButton.inputEnabled = true
-        diveButton.alpha = 0.3
-        this.diveDown = false
-        diveButton.events.onInputOver.add(() => this.diveDown = true)
-        diveButton.events.onInputOut.add(() => this.diveDown = false)
-        diveButton.events.onInputDown.add(() => this.diveDown = true)
-        diveButton.events.onInputUp.add(() => this.diveDown = false)
-
-        const leftButton = game.add.sprite(0, game.height - 95, 'left-button')
-        leftButton.inputEnabled = true
-        leftButton.alpha = 0.3
-        this.moveLeft = false
-        leftButton.events.onInputOver.add(() => this.moveLeft = true)
-        leftButton.events.onInputOut.add(() => this.moveLeft = false)
-        leftButton.events.onInputDown.add(() => this.moveLeft = true)
-        leftButton.events.onInputUp.add(() => this.moveLeft = false)
-
-        const rightButton = game.add.sprite(80, game.height - 95, 'right-button')
-        rightButton.inputEnabled = true
-        rightButton.alpha = 0.3
-        this.moveRight = false
-        rightButton.events.onInputOver.add(() => this.moveRight = true)
-        rightButton.events.onInputOut.add(() => this.moveRight = false)
-        rightButton.events.onInputDown.add(() => this.moveRight = true)
-        rightButton.events.onInputUp.add(() => this.moveRight = false)
-
-        */
-
         this.movementTouchDownEvent = null
 
         game.input.onDown.add(event => {
@@ -211,7 +175,7 @@ export const playState = {
             this.player.animations.play('right')
         } else {
             player.body.velocity.x = 0
-            this.player.frame = 0
+            this.player.frameName = 'player01'
         }
 
         // jump up

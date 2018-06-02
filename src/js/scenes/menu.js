@@ -17,7 +17,7 @@ export const menuState = {
         }
 
         // show background image
-        game.add.image(0, 0, 'background')
+        game.add.image(0, 0, 'atlas', 'background')
 
         // show game title
         const nameLabel = game.add.text(game.width / 2, -50, 'Get the Coins!', { font: '50px Geo', fontWeight: 'bold', fill: '#ffffff' })
@@ -38,11 +38,11 @@ export const menuState = {
         game.add.tween(startLabel.scale).to({ y: 1.1, x: 1.1 }, 300).yoyo(true).loop().delay(50).start()
 
         // show mute button
-        this.muteButton = game.add.button(20, 20, 'mute', () => {
+        this.muteButton = game.add.button(20, 20, 'atlas', () => {
             game.sound.mute = !game.sound.mute
-            this.muteButton.frame = game.sound.mute ? 1 : 0
+            this.muteButton.frameName = game.sound.mute ? 'muteOn' : 'muteOff'
         }, this)
-        this.muteButton.frame = game.sound.mute ? 1 : 0
+        this.muteButton.frameName = game.sound.mute ? 'muteOn' : 'muteOff'
 
         // create input key
         const spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
