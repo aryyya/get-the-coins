@@ -247,6 +247,8 @@ export const playState = {
         this.addEnemy()
         this.coinSound.play()
 
+        this.player.scale.x = 1
+        this.player.scale.y = 1
         game.add.tween(this.player.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
         game.add.tween(this.scoreLabel.scale).to({ x: 1.5, y: 1.5 }, 100).yoyo(true).start()
     },
