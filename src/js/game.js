@@ -11,7 +11,9 @@ export const game = new Phaser.Game(
 
 // game globals
 game.global = {
-    score: 0
+    score: 0,
+    sounds: null,
+    musicIsPlaying: false
 }
 
 // game scenes

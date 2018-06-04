@@ -45,11 +45,6 @@ export const playState = {
             this.bonusLabel.text = `${this.bonus}`
         }, this)
 
-        // sounds
-        this.jumpSound = game.add.audio('jump')
-        this.coinSound = game.add.audio('coin')
-        this.deadSound = game.add.audio('dead')
-
         // coins
         this.lastPosition = { x: 0, y: 0 }
         this.coin = game.add.sprite(0, 0, 'atlas', 'coin')
@@ -105,7 +100,6 @@ export const playState = {
         // enemies
         game.physics.arcade.collide(this.enemies, this.layer)
         game.physics.arcade.overlap(this.player, this.enemies, () => {
-            game.sound.play('hit-monster')
             this.playerDie()
         }, null, this)
     },
@@ -192,7 +186,7 @@ export const playState = {
     jumpPlayer () {
         if (this.player.body.onFloor()) {
             this.player.body.velocity.y = -320
-            this.jumpSound.play()
+            game.global.sounds.play('jump')
         }
     },
 
@@ -224,7 +218,7 @@ export const playState = {
     },
 
     playerDie () {
-        this.deadSound.play()
+        game.global.sounds.play('dead')
         this.player.kill()
 
         this.playerEmitter.x = this.player.x
@@ -245,7 +239,7 @@ export const playState = {
         this.coinEmitter.start(true, 800, null, this.bonus * 1.5)
 
         this.addEnemy()
-        this.coinSound.play()
+        game.global.sounds.play('coin')
 
         this.player.scale.x = 1
         this.player.scale.y = 1

@@ -22,17 +22,18 @@ export const loadState = {
         game.load.atlasJSONArray('atlas', 'atlas.png', 'atlas.json')
 
         // load audio assets
-        game.load.audio('got-coin', 'got-coin.wav')
-        game.load.audio('hit-monster', 'hit-monster.wav')
-        game.load.audio('player-died', 'player-died.wav')
-        game.load.audio('player-jumped', 'player-jumped.wav')
-        game.load.audio('jump', ['jump.ogg', 'jump.mp3'])
-        game.load.audio('coin', ['coin.ogg', 'coin.mp3'])
-        game.load.audio('dead', ['dead.ogg', 'dead.mp3'])
-        game.load.audio('music', ['background-music.ogg', 'background-music.mp3'])
+        game.load.audio('sounds', ['sounds.ogg', 'sounds.mp3'])
     },
 
     create () {
+
+        // mark sounds
+        game.global.sounds = game.add.audio('sounds')
+        game.global.sounds.allowMultiple = true
+        game.global.sounds.addMarker('coin', 0, 0.654)
+        game.global.sounds.addMarker('dead', 1, 0.510)
+        game.global.sounds.addMarker('jump', 2, 0.582)
+        game.global.sounds.addMarker('music', 3, 147.548, 0.7, true)
 
         // start next state
         game.state.start('menu')

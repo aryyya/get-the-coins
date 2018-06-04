@@ -55,11 +55,9 @@ export const menuState = {
     start () {
         
         // start background music
-        if (!this.music) {
-            this.music = game.add.audio('music')
-            this.music.loop = true
-            this.music.volume = 0.7;
-            this.music.play()
+        if (!game.global.sounds.musicIsPlaying) {
+            game.global.sounds.musicIsPlaying = true
+            game.global.sounds.play('music')
         }
 
         // do nothing if mute pressed
